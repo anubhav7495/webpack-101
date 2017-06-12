@@ -4,9 +4,12 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const autoprefixer = require("autoprefixer");
 
 module.exports = {
-  entry: './src/app.js',
+  entry: {
+    app: './src/app.js',
+    contact: './src/contact.js'
+  },
   output: {
-    filename: 'app.bundle.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist')
   },
   module: {
@@ -50,7 +53,15 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'Webpack 101',
       hash: true,
+      excludeChunks: ['contact'],
       template: './src/index.ejs'
+    }),
+    new HtmlWebpackPlugin({
+      title: 'Contact Page',
+      hash: true,
+      chunks: ['contact'],
+      template: './src/contact.ejs',
+      filename: 'contact.html'
     }),
     new ExtractTextPlugin("app.css")
   ]
